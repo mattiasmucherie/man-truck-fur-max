@@ -1,0 +1,26 @@
+﻿body {
+  /* Heben Sie diese Auskommentierung auf, um Bildlauf und Zoomen zu aktivieren.
+  touch-action: manipulation;
+  */
+  margin: 0;
+}
+
+#leinwand {
+    background-color: slategray;
+}
+
+#spielbereich {
+    position: relative;
+    width: 800px;
+}
+
+#gameover {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10%;
+    background-color: hsl(48, 100%, 50%);
+    width: 34%;
+    height: 3%;
+}
