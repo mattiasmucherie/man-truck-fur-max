@@ -3,8 +3,39 @@
   touch-action: manipulation;
   */
   margin: 0;
+  font-family: "Roboto";
+  text-align: center;
 }
 
 #leinwand {
-    background-color: whitesmoke;
+  margin: auto;
+  background-color: slategray;
+}
+
+#spielbereich {
+  position: relative;
+  width: 800px;
+}
+
+#gameover {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  background-color: hsl(48, 100%, 50%);
+  width: 400px;
+  text-align: center;
+}
+#score {
+  font-size: 20px;
+}
+.btn-new-game {
+  width: 150px;
+  height: 30px;
+  font-size: 16px;
+  -webkit-appearance: none;
+  color: #e40045;
+  border-radius: 0.5rem;
 }
