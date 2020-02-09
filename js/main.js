@@ -1,5 +1,6 @@
 const canvas = document.getElementById("leinwand");
 const playground = canvas.getContext("2d");
+
 let x = 0;
 let y = 0;
 const truckWidth = 60;
@@ -14,12 +15,15 @@ let gameSpeed = 5;
 let gameSpeedIncrement = 0.5;
 let minEnemySpeed = -2;
 let maxEnemySpeed = 2;
+let highScore = 0;
 
 // Generates a random number between minValue and maxValue
 // And it makes it so that you can define a value you are not allowed to stay on
 // I used it for the movement since we don't want 0 movement.
 // But that argument is optional,  you can call the function with randomNumber(0,1)
 // if you so desire.
+var modal = document.getElementById("gameover");
+
 const randomNumber = (minValue, maxValue, notAllowed) => {
   const value = Math.floor(
     Math.floor(Math.random() * (maxValue - minValue) + minValue)
@@ -50,10 +54,9 @@ const startGame = () => {
     );
   }
   score = 0;
-  $("#gameover").hide();
-  $("#score").html("Score: " + score);
   y = 0;
   tact = setInterval(draw, 20);
+  highScore = localStorage.getItem("highscore");
 };
 
 startGame();
@@ -71,6 +74,7 @@ function keyDownHandler(e) {
   } else if (e.key === "Space" || gameOver === true) {
     clearInterval(tact);
     startGame();
+    modal.style.display = "none";
   }
 }
 function keyUpHandler(e) {
@@ -99,13 +103,7 @@ const targetCollision = () => {
     audio.play();
     targetX = randomNumber(0, canvas.width - truckWidth);
     score++;
-    if (score < 10) {
-      $("#score").html("Score: " + score);
-    } else if (score < 20) {
-      $("#score").html("Score: " + score + " You are almost a Global Champ");
-    } else {
-      $("#score").html("Score: " + score + " You are a Global Champ");
-    }
+
     y = 0;
     gameSpeed += gameSpeedIncrement;
     for (let i = 0; i < 5; i -= -1) {
@@ -115,7 +113,6 @@ const targetCollision = () => {
         0
       );
     }
-    console.log(enemyMovement);
   }
 };
 
@@ -134,8 +131,15 @@ const checkEnemyCollision = () => {
 };
 const enemyCollision = () => {
   clearInterval(tact);
-  $("#gameover").slideDown();
+  modal.style.display = "block";
   gameOver = true;
+  const spanHighscore = document.getElementById("highscore");
+  if (score > highScore) {
+    spanHighscore.textContent = score;
+    localStorage.setItem("highscore", score);
+  } else {
+    spanHighscore.textContent = highScore;
+  }
 };
 
 const drawEnemy = () => {
@@ -158,9 +162,9 @@ const createEnemy = (fx, fy) => {
 
 const drawPlayer = () => {
   const image = new Image();
-  if (score < 10) {
+  if (score < 5) {
     image.src = "./assets/images/truck.png";
-  } else if (score < 20) {
+  } else if (score < 10) {
     image.src = "./assets/images/newPlayer.png";
   } else {
     image.src = "./assets/images/bestPlayer.png";
@@ -171,6 +175,15 @@ const drawPlayer = () => {
 
 function draw() {
   playground.clearRect(0, 0, canvas.width, canvas.height);
+  playground.globalAlpha = 0.05;
+  const backgroundImage = new Image();
+  backgroundImage.src = "./assets/images/man-logo.png";
+  playground.drawImage(backgroundImage, 0, 15, 780, 432);
+  playground.globalAlpha = 0.5;
+  playground.font = "30px Roboto";
+  playground.fillText(`Score: ${score}`, 650, 30);
+  playground.globalAlpha = 1;
+
   drawPlayer();
   drawTarget();
   drawEnemy();

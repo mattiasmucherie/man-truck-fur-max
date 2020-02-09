@@ -31,25 +31,24 @@
       rel="stylesheet"
     />
 
-    <script src="jquery.js"></script>
-
     <link href="css/default.css" type="text/css" rel="stylesheet" />
   </head>
   <body>
-    <h1>Truck Game</h1>
+    <h1 class="title">Truck Game</h1>
     <canvas id="leinwand" width="780" height="460"></canvas>
-    <div id="score">Score: 0</div>
-    <form>
-      <input
-        class="btn-new-game"
-        type="button"
-        value="Neues Spiel"
-        onclick="startGame()"
-      />
-    </form>
+
     <div id="gameover">
-      Sterne gehören in den Himmel, nicht auf die Straße, vermeiden Sie den
-      Kontakt! Press SPACE to restart
+      <div class="modal-content">
+        <h1 class="modal-header">GAMEOVER</h1>
+        Sterne gehören in den Himmel, nicht auf die Straße, vermeiden Sie den
+        Kontakt!
+        <div class="highscore-text">
+          Highscore: <span id="highscore"></span>
+        </div>
+        <h2>
+          Press SPACE to restart
+        </h2>
+      </div>
     </div>
     <script src="js/main.js"></script>
   </body>
